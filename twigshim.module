@@ -1,0 +1,93 @@
+<?php
+
+/**
+ * @file
+ * Module file for the Twig Shim project.
+ */
+
+/**
+ * Output paragraphs via twig templates.
+ *
+ * @param string $template
+ *   Path to the twig template.
+ * @param array $variables
+ *   A associative array of field value pairs.
+ *
+ * @return string
+ *   The rendered twig template output.
+ */
+function twigshim_render($template, $variables = array()) {
+
+  // Load our Twig instance.
+  static $twig;
+  if (!isset($twig)) {
+
+    // If they haven't imported Twig via Composer Manager or some other method,
+    // check to see if they ran composer install inside this module directory,
+    // then fall back to the Libraries API.
+    if (!class_exists('Twig_Environment')) {
+      $module_path = drupal_get_path('module', 'twigshim');
+      if (file_exists($autoload = "$module_path/vendor/autoload.php")) {
+        require_once $autoload;
+      }
+      // Try the Libraries API.
+      elseif ($twig_path = libraries_get_path('twig')) {
+        require_once "$twig_path/lib/Twig/Autoloader.php";
+        Twig_Autoloader::register();
+      }
+      // No Twig library was found.
+      else {
+        return drupal_set_message('Please install Twig!', 'error');
+      }
+    }
+
+    // Get the path to the Twig templates.
+    $theme_path = drupal_get_path('theme', variable_get('theme_default'));
+    $templates  = variable_get('twigshim_templates', "$theme_path/templates");
+
+    // Create a twig worker.
+    $loader    = new Twig_Loader_Filesystem(DRUPAL_ROOT . base_path() . $templates);
+    $files_dir = variable_get('file_public_path', conf_path() . '/files');
+    $twig      = new Twig_Environment($loader, array(
+      'cache' => $files_dir . '/twig',
+    ));
+  }
+
+  // Render the appropriate twig template with the provided variables.
+  return $twig->render($template, $variables);
+}
+
+/**
+ * Renders an entity via Twig.
+ *
+ * @param object $entity
+ *   The Entity object.
+ * @param string $template
+ *   Path to the twig template.
+ * @param array $variables
+ *   A associative array of field value pairs.
+ *
+ * @return string
+ *   The rendered twig template output.
+ */
+function twigshim_render_entity($type, $entity, $template, $variables = array()) {
+
+  // Get a wrapper for the entity.
+  $wrapper = entity_metadata_wrapper($type, $entity);
+
+  // Save field data into template variables.
+  foreach (array_keys($wrapper->getPropertyInfo()) as $property) {
+
+    // Strip "field_" from field names.
+    $name = strpos($property, 'field_') === 0
+      ? substr($property, 6)
+      : $property;
+
+    // Don't overwrite any data provided by the caller.
+    if (!isset($variables[$name])) {
+      $variables[$name] = $wrapper->$property->value();
+    }
+  }
+
+  return twigshim_render($template, $variables);
+}

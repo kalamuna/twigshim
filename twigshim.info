@@ -1,0 +1,4 @@
+name = twigshim
+description = Shoehorns Twig template compiling into Drupal 7.
+core = 7.x
+package = Theming
