@@ -52,7 +52,12 @@ function twigshim_render($template, $variables = array()) {
       }
       // No Twig library was found.
       else {
-        return drupal_set_message('Please install Twig!', 'error');
+        $message = t('Please install Twig! See @link.', array(
+          '@link' => '<a href="https://github.com/derekderaps/twigshim">github.com/derekderaps/twigshim</a>',
+        ));
+        watchdog('twigshim', $message, NULL, WATCHDOG_ERROR);
+        drupal_set_message($message, 'error');
+        return $message;
       }
     }
 
