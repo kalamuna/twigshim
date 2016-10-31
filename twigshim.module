@@ -21,7 +21,7 @@ function twigshim_menu() {
 }
 
 /**
- * Output paragraphs via twig templates.
+ * Renders a twig template with given variables.
  *
  * @param string $template
  *   Path to the twig template.
@@ -33,7 +33,7 @@ function twigshim_menu() {
  */
 function twigshim_render($template, $variables = array()) {
 
-  // Load our Twig instance.
+  // Load the Twig instance.
   static $twig;
   if (!isset($twig)) {
 
@@ -75,12 +75,14 @@ function twigshim_render($template, $variables = array()) {
 /**
  * Renders an entity via Twig.
  *
+ * @param string $type
+ *   The entity type.
  * @param object $entity
  *   The Entity object.
  * @param string $template
  *   Path to the twig template.
  * @param array $variables
- *   A associative array of field value pairs.
+ *   An associative array of field value pairs.
  *
  * @return string
  *   The rendered twig template output.
