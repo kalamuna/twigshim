@@ -1,0 +1,13 @@
+<?php
+
+/**
+ * @file
+ * (Un)Installation and update hooks for the Twig Shim project.
+ */
+
+/**
+ * Implemements hook_uninstall().
+ */
+function twigshim_uninstall() {
+  variable_del('twigshim_templates');
+}
