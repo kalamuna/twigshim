@@ -37,9 +37,9 @@ function twigshim_render($template, $variables = array()) {
   static $twig;
   if (!isset($twig)) {
 
-    // If they haven't imported Twig via Composer Manager or some other method,
-    // check to see if they ran composer install inside this module directory,
-    // then fall back to the Libraries API.
+    // If Twig has not been imported via Composer Manager or some other method,
+    // check to see if composer install has been been run inside this module
+    // directory. If that fails, fall back to the Libraries API.
     if (!class_exists('Twig_Environment')) {
       $module_path = drupal_get_path('module', 'twigshim');
       if (file_exists($autoload = "$module_path/vendor/autoload.php")) {
