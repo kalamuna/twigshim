@@ -23,6 +23,9 @@ function twigshim_menu() {
 /**
  * Renders a twig template with given variables.
  *
+ * Note that it is the caller's responsibility to properly sanitize all
+ * variables. See http://bit.ly/2fxkUGS for options.
+ *
  * @param string $template
  *   Path to the twig template.
  * @param array $variables
@@ -79,6 +82,9 @@ function twigshim_render($template, $variables = array()) {
 
 /**
  * Renders an entity via Twig.
+ *
+ * Note that it is the caller's responsibility to properly sanitize all
+ * variables. See http://bit.ly/2fxkUGS for options.
  *
  * @param string $type
  *   The entity type.
