@@ -6,6 +6,21 @@
  */
 
 /**
+ * Implements hook_menu().
+ */
+function twigshim_menu() {
+  $items['admin/config/development/twigshim'] = array(
+    'title'            => 'Twigshim',
+    'description'      => 'Define the path to your Twig templates.',
+    'page callback'    => 'drupal_get_form',
+    'page arguments'   => array('twigshim_settings_form'),
+    'access arguments' => array('administer themes'),
+    'file'             => 'twigshim.admin.inc',
+  );
+  return $items;
+}
+
+/**
  * Output paragraphs via twig templates.
  *
  * @param string $template
