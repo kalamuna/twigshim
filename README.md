@@ -19,7 +19,7 @@ _This is the recommended installation method._ Install the [Composer
 Manager](https://www.drupal.org/project/composer_manager) module* and follow its
 installation instructions to generate your `composer.json` and download your
 `vendor` dependencies. No extra work is required beyond the steps outlined in
-the project.
+the Composer Manager project.
 
 #### _or_ via Composer
 Follow the installation instructions for the main
