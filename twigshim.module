@@ -66,7 +66,10 @@ function twigshim_render($template, $variables = array()) {
 
     // Get the path to the Twig templates.
     $theme_path = drupal_get_path('theme', variable_get('theme_default'));
-    $templates  = variable_get('twigshim_templates', "$theme_path/templates");
+    $templates  = variable_get('twigshim_templates', FALSE);
+    if (empty($templates)) {
+      $templates = "$theme_path/templates";
+    }
 
     // Create a twig worker.
     $loader    = new Twig_Loader_Filesystem(DRUPAL_ROOT . base_path() . $templates);
