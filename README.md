@@ -6,8 +6,8 @@ PHPTemplate.
 
 ## Installation
 ### Download the Twig library
-Note that this project depends on the Twig library, which can be installed one
-of three ways:
+This project depends on the Twig PHP library, which can be installed one of
+three ways:
 
 1.  [Composer Manager](https://www.drupal.org/project/composer_manager)*
     (recommended)
