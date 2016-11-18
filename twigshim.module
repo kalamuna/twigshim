@@ -101,7 +101,7 @@ function twigshim_render($template, $variables = array()) {
  * @return string
  *   The rendered twig template output.
  */
-function twigshim_render_entity($type, $entity, $template, $variables = array()) {
+function twigshim_render_entity($type, $entity, $template, $variables = array(), $mask = 'field_') {
 
   // Get a wrapper for the entity.
   $wrapper = entity_metadata_wrapper($type, $entity);
@@ -110,8 +110,8 @@ function twigshim_render_entity($type, $entity, $template, $variables = array())
   foreach (array_keys($wrapper->getPropertyInfo()) as $property) {
 
     // Strip "field_" from field names.
-    $name = strpos($property, 'field_') === 0
-      ? substr($property, 6)
+    $name = strpos($property, $mask) === 0
+      ? substr($property, strlen($mask))
       : $property;
 
     // Don't overwrite any data provided by the caller.
