@@ -20,5 +20,10 @@ function twigshim_settings_form($form, &$form_state) {
     '#title'         => t('Enable Twig caching'),
     '#default_value' => variable_get('twigshim_cache', FALSE),
   );
+  $form['twigshim_debug'] = array(
+    '#type'          => 'checkbox',
+    '#title'         => t('Enable Twig debug mode'),
+    '#default_value' => variable_get('twigshim_debug', FALSE),
+  );
   return system_settings_form($form);
 }

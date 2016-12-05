@@ -74,7 +74,9 @@ function twigshim_render($template, $variables = array()) {
     // Create a twig worker.
     $loader    = new Twig_Loader_Filesystem(DRUPAL_ROOT . base_path() . $templates);
     $files_dir = variable_get('file_public_path', conf_path() . '/files');
-    $options   = array();
+    $options   = array(
+      'debug' => variable_get('twigshim_debug', FALSE),
+    );
     if (variable_get('twigshim_cache', FALSE)) {
       $options['cache'] = $files_dir . '/twig';
     }
