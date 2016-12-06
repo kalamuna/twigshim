@@ -55,8 +55,8 @@ function twigshim_render($template, $variables = array()) {
       }
       // No Twig library was found.
       else {
-        $message = t('Please install Twig! See the !link for more information.', array(
-          '!link' => l(t('Twigshim Documentation'), 'https://github.com/derekderaps/twigshim')
+        $message = t('Please install Twig! See the <a href="@url">Twigshim Documentation</a> for more information.', array(
+          '@url' => 'https://github.com/derekderaps/twigshim'
         ));
         watchdog('twigshim', $message, NULL, WATCHDOG_ERROR);
         drupal_set_message($message, 'error');
@@ -75,6 +75,7 @@ function twigshim_render($template, $variables = array()) {
     $loader = new Twig_Loader_Filesystem(DRUPAL_ROOT . base_path() . $templates);
 
     // Add Drupal's web root so that we can provide absolute template paths.
+    // For example: sites/all/modules/contrib/twigshim/twigshim.example.html.twig
     $loader->addPath(DRUPAL_ROOT);
 
     // Define the Twig options.
