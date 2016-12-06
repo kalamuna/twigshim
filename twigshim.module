@@ -71,14 +71,17 @@ function twigshim_render($template, $variables = array()) {
       $templates = "$theme_path/templates";
     }
 
-    // Create a twig worker.
-    $loader = new Twig_Loader_Filesystem(DRUPAL_ROOT . base_path() . $templates);
+    // Define the Twig options.
     $options['debug'] = variable_get('twigshim_debug', FALSE);
+    $options['autoescape'] = FALSE;
     if (variable_get('twigshim_cache', FALSE)) {
       $files_dir = variable_get('file_public_path', conf_path() . '/files');
       $options['cache'] = $files_dir . '/twig';
     }
-    $twig = new Twig_Environment($loader, $options);
+
+    // Create a Twig worker.
+    $loader = new Twig_Loader_Filesystem(DRUPAL_ROOT . base_path() . $templates);
+    $twig   = new Twig_Environment($loader, $options);
   }
 
   // Render the appropriate twig template with the provided variables.
