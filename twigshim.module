@@ -77,8 +77,9 @@ function twigshim_render($template, $variables = array()) {
     // Add Drupal's web root so that we can provide absolute template paths.
     $loader->addPath(DRUPAL_ROOT);
 
-    // Change some of the environmental options for Twig.
+    // Define the Twig options.
     $options['debug'] = variable_get('twigshim_debug', FALSE);
+    $options['autoescape'] = FALSE;
     if (variable_get('twigshim_cache', FALSE)) {
       $files_dir = variable_get('file_public_path', conf_path() . '/files');
       $options['cache'] = $files_dir . '/twig';
