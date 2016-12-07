@@ -46,4 +46,5 @@ class TwigshimTestCase extends DrupalUnitTestCase {
     // Test to see if they match.
     $this->assertEqual($expected, trim($result), "Twigshim's twigshim_render() function renders Twig correctly.");
   }
+
 }
