@@ -48,15 +48,15 @@ function twigshim_render($template, $variables = array()) {
       if (file_exists($autoload = "$module_path/vendor/autoload.php")) {
         require_once $autoload;
       }
-      // Try the Libraries API.
-      elseif ($twig_path = libraries_get_path('twig')) {
+      // Try the Libraries API (optional depedency).
+      elseif (function_exists('libraries_get_path') && $twig_path = libraries_get_path('twig')) {
         require_once "$twig_path/lib/Twig/Autoloader.php";
         Twig_Autoloader::register();
       }
       // No Twig library was found.
       else {
-        $message = t('Please install Twig! See @link.', array(
-          '@link' => '<a href="https://github.com/derekderaps/twigshim">github.com/derekderaps/twigshim</a>',
+        $message = t('Please install Twig! See the <a href="@url">Twigshim Documentation</a> for more information.', array(
+          '@url' => 'https://github.com/derekderaps/twigshim'
         ));
         watchdog('twigshim', $message, NULL, WATCHDOG_ERROR);
         drupal_set_message($message, 'error');
@@ -80,8 +80,11 @@ function twigshim_render($template, $variables = array()) {
     }
 
     // Create a Twig worker.
-    $loader = new Twig_Loader_Filesystem(DRUPAL_ROOT . base_path() . $templates);
-    $twig   = new Twig_Environment($loader, $options);
+    $loader = new Twig_Loader_Filesystem(array(
+      DRUPAL_ROOT,
+      DRUPAL_ROOT . "/$templates",
+    ));
+    $twig = new Twig_Environment($loader, $options);
   }
 
   // Render the appropriate twig template with the provided variables.

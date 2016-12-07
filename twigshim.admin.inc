@@ -9,6 +9,14 @@
  * Form callback for the twigshim admin settings.
  */
 function twigshim_settings_form($form, &$form_state) {
+  $path = drupal_get_path('module', 'twigshim') . '/twigshim.example.html.twig';
+  $form['twigshim_example'] = array(
+    '#type' => 'markup',
+    '#markup' => twigshim_render($path, array(
+      'name' => 'Twigshim',
+      'type' => 'module',
+    )),
+  );
   $form['twigshim_templates'] = array(
     '#type'          => 'textfield',
     '#title'         => t('Twig templates path'),
