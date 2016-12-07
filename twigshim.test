@@ -1,0 +1,49 @@
+<?php
+
+/**
+ * @file
+ * Unit tests for the Twigshim module.
+ */
+
+/**
+ * Tests for the Twigshim module.
+ */
+class TwigshimTestCase extends DrupalUnitTestCase {
+
+  /**
+   * Provides information about the test suite.
+   */
+  public static function getInfo() {
+    return array(
+      'name' => 'Twigshim',
+      'description' => 'Performs tests for the Twigshim module.',
+      'group' => 'Theme',
+    );
+  }
+
+  /**
+   * Make sure the environment has Twigshim installed.
+   */
+  public function setUp() {
+    drupal_load('module', 'twigshim');
+    parent::setUp();
+  }
+
+  /**
+   * Tests the twigshim_render() function.
+   */
+  public function testTwigshimRender() {
+    // Construct the expected result.
+    $expected = 'The <em>Twigshim Testing awesomeness</em> provides a simple way to render Twig templates in Drupal.';
+
+    // Render out the Twig template.
+    $path = drupal_get_path('module', 'twigshim') . '/twigshim.example.html.twig';
+    $result = twigshim_render($path, array(
+      'name' => 'Twigshim Testing',
+      'type' => 'awesomeness',
+    ));
+
+    // Test to see if they match.
+    $this->assertEqual($expected, trim($result), "Twigshim's twigshim_render() function renders Twig correctly.");
+  }
+}
