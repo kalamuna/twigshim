@@ -74,8 +74,9 @@ function twigshim_render($template, $variables = array()) {
     // Create a twig worker.
     $loader = new Twig_Loader_Filesystem(DRUPAL_ROOT . base_path() . $templates);
 
-    // Add Drupal's web root so that we can provide absolute template paths.
-    // For example: sites/all/modules/contrib/twigshim/twigshim.example.html.twig
+    // Add Drupal's web root so that we can provide relative template paths
+    // from the Drupal root. For example:
+    //     sites/all/modules/contrib/twigshim/twigshim.example.html.twig
     $loader->addPath(DRUPAL_ROOT);
 
     // Define the Twig options.
