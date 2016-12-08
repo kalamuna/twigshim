@@ -28,14 +28,34 @@ class TwigshimTwigExtension extends \Twig_Extension {
   public function getFilters()
   {
     return array(
-      // Translation filters.
       new \Twig_SimpleFilter('t', 't', array('is_safe' => array('html'))),
       new \Twig_SimpleFilter('trans', 't', array('is_safe' => array('html'))),
-      // The "raw" filter is not detectable when parsing "trans" tags. To detect
-      // which prefix must be used for translation (@, !, %), we must clone the
-      // "raw" filter and give it identifiable names. These filters should only
-      // be used in "trans" tags.
-      // @see TwigNodeTrans::compileString()
+      new \Twig_SimpleFilter('safe_join', [$this, 'safeJoin'], ['needs_environment' => TRUE, 'is_safe' => ['html']]),
+      new \Twig_SimpleFilter('clean_class', 'drupal_html_class', array('is_safe' => array('html'))),
+      new \Twig_SimpleFilter('clean_id', 'drupal_html_id', array('is_safe' => array('html'))),
+      new \Twig_SimpleFilter('format_date', 'format_date', array('is_safe' => array('html'))),
     );
+  }
+
+  /**
+   * Joins several strings together safely.
+   *
+   * @param \Twig_Environment $env
+   *   A Twig_Environment instance.
+   * @param mixed[]|\Traversable|null $value
+   *   The pieces to join.
+   * @param string $glue
+   *   The delimiter with which to join the string. Defaults to an empty string.
+   *   This value is expected to be safe for output and user provided data
+   *   should never be used as a glue.
+   *
+   * @return string
+   *   The strings joined together.
+   */
+  public function safeJoin(\Twig_Environment $env, $value, $glue = '') {
+    if ($value instanceof \Traversable) {
+      $value = iterator_to_array($value, FALSE);
+    }
+    return implode($glue, $value);
   }
 }
