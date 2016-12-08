@@ -30,21 +30,34 @@ class TwigshimTestCase extends DrupalUnitTestCase {
   }
 
   /**
+   * Run a test on the render function with the given parameters.
+   */
+  private function runTwigshimRenderTest($template, $options, $expected, $message) {
+    $path = drupal_get_path('module', 'twigshim') . '/' . $template;
+    $result = twigshim_render($path, $options);
+    $this->assertEqual($expected, trim($result), $message);
+  }
+
+  /**
    * Tests the twigshim_render() function.
    */
-  public function testTwigshimRender() {
-    // Construct the expected result.
-    $expected = 'The <em>Twigshim Testing awesomeness</em> provides a simple way to render Twig templates in Drupal.';
-
-    // Render out the Twig template.
-    $path = drupal_get_path('module', 'twigshim') . '/twigshim.example.html.twig';
-    $result = twigshim_render($path, array(
+  public function testRender() {
+    $opts = array(
       'name' => 'Twigshim Testing',
       'type' => 'awesomeness',
-    ));
+    );
+    $expected = 'The <em>Twigshim Testing awesomeness</em> provides a simple way to render Twig templates in Drupal.';
+    $message = "Twigshim's twigshim_render() function renders Twig correctly.";
+    $this->runTwigshimRenderTest('twigshim.example.html.twig', $opts, $expected, $message);
+  }
 
-    // Test to see if they match.
-    $this->assertEqual($expected, trim($result), "Twigshim's twigshim_render() function renders Twig correctly.");
+  /**
+   * Tests the twigshim_render() function.
+   */
+  public function testFilters() {
+    $expected = 'The Translation Filter is great!';
+    $message = "The t() filter runs correctly.";
+    $this->runTwigshimRenderTest('tests/filtertest.twig', array(), $expected, $message);
   }
 
 }

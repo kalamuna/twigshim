@@ -1,5 +1,6 @@
 name = Twigshim
 description = Shoehorns Twig template compiling into Drupal 7.
+php = 5.3
 core = 7.x
 package = Theming
 configure = admin/config/development/twigshim
