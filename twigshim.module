@@ -56,7 +56,7 @@ function twigshim_render($template, $variables = array()) {
       // No Twig library was found.
       else {
         $message = t('Please install Twig! See the <a href="@url">Twigshim Documentation</a> for more information.', array(
-          '@url' => 'https://github.com/derekderaps/twigshim'
+          '@url' => 'https://github.com/kalamuna/twigshim',
         ));
         watchdog('twigshim', $message, NULL, WATCHDOG_ERROR);
         drupal_set_message($message, 'error');
@@ -65,10 +65,10 @@ function twigshim_render($template, $variables = array()) {
     }
 
     // Get the path to the Twig templates.
-    $theme_path = drupal_get_path('theme', variable_get('theme_default'));
-    $templates  = variable_get('twigshim_templates', FALSE);
+    $templates = variable_get('twigshim_templates', FALSE);
     if (empty($templates)) {
-      $templates = "$theme_path/templates";
+      $theme_path = drupal_get_path('theme', variable_get('theme_default'));
+      $templates  = "$theme_path/templates";
     }
 
     // Define the Twig options.
