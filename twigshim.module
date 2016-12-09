@@ -85,6 +85,9 @@ function twigshim_render($template, $variables = array()) {
       DRUPAL_ROOT . "/$templates",
     ));
     $twig = new Twig_Environment($loader, $options);
+    // TODO: Switch to Composer autoloading?
+    require_once(__DIR__ . '/src/TwigshimTwigExtension.php');
+    $twig->addExtension(new \Drupal\twigshim\TwigshimTwigExtension());
   }
 
   // Render the appropriate twig template with the provided variables.

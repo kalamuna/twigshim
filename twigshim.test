@@ -30,21 +30,92 @@ class TwigshimTestCase extends DrupalUnitTestCase {
   }
 
   /**
+   * Run a test on the render function with the given parameters.
+   */
+  private function runTwigshimRenderTest($template, $options, $expected, $message) {
+    $path = drupal_get_path('module', 'twigshim') . '/' . $template;
+    $result = twigshim_render($path, $options);
+    $this->assertEqual($expected, trim($result), $message);
+  }
+
+  /**
    * Tests the twigshim_render() function.
    */
-  public function testTwigshimRender() {
-    // Construct the expected result.
-    $expected = 'The <em>Twigshim Testing awesomeness</em> provides a simple way to render Twig templates in Drupal.';
-
-    // Render out the Twig template.
-    $path = drupal_get_path('module', 'twigshim') . '/twigshim.example.html.twig';
-    $result = twigshim_render($path, array(
+  public function testRender() {
+    $opts = array(
       'name' => 'Twigshim Testing',
       'type' => 'awesomeness',
-    ));
+    );
+    $expected = 'The <em>Twigshim Testing awesomeness</em> provides a simple way to render Twig templates in Drupal.';
+    $message = "Twigshim's twigshim_render() function renders Twig correctly.";
+    $this->runTwigshimRenderTest('twigshim.example.html.twig', $opts, $expected, $message);
+  }
 
-    // Test to see if they match.
-    $this->assertEqual($expected, trim($result), "Twigshim's twigshim_render() function renders Twig correctly.");
+  /**
+   * Tests the t filter.
+   */
+  public function testFiltersT() {
+    $expected = "<a href='http://kalamuna.com'>Kalamuna</a>";
+    $message = "The t() filter runs correctly.";
+    $options = array(
+      'toptions' => array(
+        '@link' => 'http://kalamuna.com'
+      )
+    );
+    $this->runTwigshimRenderTest('tests/filters/t.twig', $options, $expected, $message);
+  }
+
+  /**
+   * Tests the clean_class filter.
+   */
+  public function testFiltersCleanClass() {
+    $expected = '<div class="this-is-a-dirty-class">Hello, World!</div>';
+    $message = "The clean_class() filter runs correctly.";
+    $options = array(
+      'className' => 'This is a DIRTY class!',
+    );
+    $this->runTwigshimRenderTest('tests/filters/clean_class.twig', $options, $expected, $message);
+  }
+
+  /**
+   * Tests the clean_class filter.
+   */
+  public function testFiltersCleanId() {
+    $expected = '<div id="this-is-a-dirty-id">Hello, World!</div>';
+    $message = "The clean_id() filter runs correctly.";
+    $options = array(
+      'idName' => 'This is a DIRTY ID!',
+    );
+    $this->runTwigshimRenderTest('tests/filters/clean_id.twig', $options, $expected, $message);
+  }
+
+  /**
+   * Tests the format_date filter.
+   */
+  public function testFiltersFormatDate() {
+    $expected = 'Time: Thu, 12/08/2016 - 18:44';
+    $message = "The format_date() filter runs correctly.";
+    $options = array(
+      'time' => 1481240695,
+    );
+    $this->runTwigshimRenderTest('tests/filters/format_date.twig', $options, $expected, $message);
+  }
+
+  /**
+   * Tests the format_date filter.
+   */
+  public function testFiltersSafeJoin() {
+    $expected = 'we-are-here-together';
+    $message = "The safe_join() filter runs correctly.";
+    $options = array(
+      'items' => array(
+        'we',
+        'are',
+        'here',
+        'together'
+      )
+    );
+    $this->runTwigshimRenderTest('tests/filters/safe_join.twig', $options, $expected, $message);
   }
 
 }
