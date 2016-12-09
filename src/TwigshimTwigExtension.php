@@ -19,7 +19,7 @@ class TwigshimTwigExtension extends \Twig_Extension {
   public function getName()
   {
     // TODO: Rename the name once composer.json is updated?
-    return 'derekderaps/twigshim';
+    return 'kalamuna/twigshim';
   }
 
   /**
