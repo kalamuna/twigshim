@@ -79,15 +79,15 @@ function twigshim_render($template, $variables = array()) {
       $options['cache'] = $files_dir . '/twig';
     }
 
-    // Create a Twig worker.
+    // Create a Twig environment.
     $loader = new Twig_Loader_Filesystem(array(
       DRUPAL_ROOT,
       DRUPAL_ROOT . "/$templates",
     ));
     $twig = new Twig_Environment($loader, $options);
-    // TODO: Switch to Composer autoloading?
-    require_once(__DIR__ . '/src/TwigshimTwigExtension.php');
-    $twig->addExtension(new \Drupal\twigshim\TwigshimTwigExtension());
+
+    // Invoke the hook to let contributed modules extend the environment.
+    module_invoke_all('twigshim_environment', $twig);
   }
 
   // Render the appropriate twig template with the provided variables.
@@ -132,4 +132,14 @@ function twigshim_render_entity($type, $entity, $template, $variables = array(),
   }
 
   return twigshim_render($template, $variables);
+}
+
+/**
+ * Implements hook_twigshim_environment().
+ */
+function twigshim_twigshim_environment($twig) {
+  // Add the TwigshimTwigExtension to the Twig environment.
+  // TODO: Switch to Composer autoloading?
+  require_once(__DIR__ . '/src/TwigshimTwigExtension.php');
+  $twig->addExtension(new \Drupal\twigshim\TwigshimTwigExtension());
 }
