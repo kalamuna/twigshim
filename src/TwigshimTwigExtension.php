@@ -32,6 +32,7 @@ class TwigshimTwigExtension extends \Twig_Extension {
       new \Twig_SimpleFilter('trans', 't', array('is_safe' => array('html'))),
       new \Twig_SimpleFilter('safe_join', [$this, 'safeJoin'], ['needs_environment' => TRUE, 'is_safe' => ['html']]),
       new \Twig_SimpleFilter('clean_class', 'drupal_html_class', array('is_safe' => array('html'))),
+      new \Twig_SimpleFilter('slug', 'drupal_html_class', array('is_safe' => array('html'))),
       new \Twig_SimpleFilter('clean_id', 'drupal_html_id', array('is_safe' => array('html'))),
       new \Twig_SimpleFilter('format_date', 'format_date', array('is_safe' => array('html'))),
     );
