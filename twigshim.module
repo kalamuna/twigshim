@@ -79,14 +79,16 @@ function twigshim_render($template, $variables = array()) {
       $options['cache'] = $files_dir . '/twig';
     }
 
-    // Create a Twig environment.
+    // Create the Twig loader and give other modules a chance to modify it
+    // (e.g., to add their own paths).
     $loader = new Twig_Loader_Filesystem(array(
       DRUPAL_ROOT,
       DRUPAL_ROOT . "/$templates",
     ));
-    $twig = new Twig_Environment($loader, $options);
+    module_invoke_all('twigshim_loader', $loader);
 
-    // Invoke the hook to let contributed modules extend the environment.
+    // Create the Twig environment and let contributed modules extend it.
+    $twig = new Twig_Environment($loader, $options);
     module_invoke_all('twigshim_environment', $twig);
   }
 
