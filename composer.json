@@ -1,7 +1,7 @@
 {
     "name": "derekderaps/twigshim",
     "description": "Shoehorns Twig template compiling into Drupal 7.",
-    "type": "project",
+    "type": "drupal-module",
     "require": {
         "twig/twig": "~1.29"
     },
