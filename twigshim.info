@@ -5,3 +5,4 @@ core = 7.x
 package = Theming
 configure = admin/config/development/twigshim
 files[] = twigshim.test
+version = "7.x-1.0-alpha1"
