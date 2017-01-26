@@ -36,7 +36,7 @@ function twigshim_menu() {
  * @return string
  *   The rendered twig template output.
  */
-function twigshim_render($template, $variables = array()) {
+function twigshim_render($template, array $variables = array()) {
 
   // Load the Twig instance.
   static $twig;
@@ -112,11 +112,13 @@ function twigshim_render($template, $variables = array()) {
  *   Path to the twig template.
  * @param array $variables
  *   An associative array of field value pairs.
+ * @param string $mask
+ *   The field name prefix to strip off the front.
  *
  * @return string
  *   The rendered twig template output.
  */
-function twigshim_render_entity($type, $entity, $template, $variables = array(), $mask = 'field_') {
+function twigshim_render_entity($type, $entity, $template, array $variables = array(), $mask = 'field_') {
 
   // Get a wrapper for the entity.
   $wrapper = entity_metadata_wrapper($type, $entity);
