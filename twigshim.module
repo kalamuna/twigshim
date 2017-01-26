@@ -73,14 +73,6 @@ function twigshim_render($template, array $variables = array()) {
       $templates  = "$theme_path/templates";
     }
 
-    // Define the Twig options.
-    $options['debug'] = variable_get('twigshim_debug', FALSE);
-    $options['autoescape'] = FALSE;
-    if (variable_get('twigshim_cache', FALSE)) {
-      $files_dir = variable_get('file_public_path', conf_path() . '/files');
-      $options['cache'] = $files_dir . '/twig';
-    }
-
     // Create the Twig loader and give other modules a chance to modify it
     // (e.g., to add their own paths).
     $loader = new Twig_Loader_Filesystem(array(
@@ -89,8 +81,21 @@ function twigshim_render($template, array $variables = array()) {
     ));
     module_invoke_all('twigshim_loader', $loader);
 
-    // Create the Twig environment and let contributed modules extend it.
+    // Define the Twig Environment options.
+    $options['autoescape'] = FALSE;
+    $options['debug']      = variable_get('twigshim_debug', FALSE);
+    $options['cache']      = variable_get('twigshim_cache', FALSE)
+      ? variable_get('file_public_path', conf_path() . '/files') . '/twig'
+      : FALSE;
+
+    // Create the Twig Environment.
     $twig = new Twig_Environment($loader, $options);
+
+    // Enable debugging?
+    if (variable_get('twigshim_debug', FALSE)) {
+      $twig->addExtension(new Twig_Extension_Debug());
+    }
+    // Let contributed modules extend it.
     module_invoke_all('twigshim_environment', $twig);
   }
 
