@@ -5,6 +5,8 @@
  * Module file for the Twig Shim project.
  */
 
+use \Drupal\twigshim\TwigshimTwigExtension;
+
 /**
  * Implements hook_menu().
  */
@@ -142,6 +144,6 @@ function twigshim_render_entity($type, $entity, $template, $variables = array(),
 function twigshim_twigshim_environment($twig) {
   // Add the TwigshimTwigExtension to the Twig environment.
   // TODO: Switch to Composer autoloading?
-  require_once(__DIR__ . '/src/TwigshimTwigExtension.php');
-  $twig->addExtension(new \Drupal\twigshim\TwigshimTwigExtension());
+  include __DIR__ . '/src/TwigshimTwigExtension.php';
+  $twig->addExtension(new TwigshimTwigExtension());
 }
