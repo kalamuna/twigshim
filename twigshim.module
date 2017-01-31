@@ -153,4 +153,7 @@ function twigshim_twigshim_environment($twig) {
   // TODO: Switch to Composer autoloading?
   include __DIR__ . '/src/TwigshimTwigExtension.php';
   $twig->addExtension(new TwigshimTwigExtension());
+
+  // Set the site name variable for use in Twig.
+  $twig->addGlobal('site_name', variable_get('site_name'));
 }
