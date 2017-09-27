@@ -1,15 +1,23 @@
 {
-    "name": "derekderaps/twigshim",
+    "name": "drupal/twigshim",
     "description": "Shoehorns Twig template compiling into Drupal 7.",
     "type": "drupal-module",
     "require": {
         "twig/twig": "~1.29"
     },
-    "license": "MIT",
+    "license": "GPL-2.0+",
     "authors": [
         {
             "name": "Derek DeRaps",
-            "email": "derek@kalamuna.com"
+            "homepage": "https://www.drupal.org/user/1571646"
+        },
+        {
+            "name": "Rob Loach",
+            "homepage": "http://robloach.net"
+        },
+        {
+            "name": "Gremy",
+            "homepage": "https://www.drupal.org/user/829152"
         }
     ]
 }
