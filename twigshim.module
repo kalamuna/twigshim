@@ -81,6 +81,12 @@ function twigshim_render($template, array $variables = array()) {
     ));
     module_invoke_all('twigshim_loader', $loader);
 
+    // Let the themes play too, because twigging is a very themey thing.
+    $function = $GLOBALS['theme'] . '_twigshim_loader';
+    if (function_exists($function)) {
+      $function($loader);
+    }
+
     // Define the Twig Environment options.
     $options['autoescape'] = FALSE;
     $options['debug']      = variable_get('twigshim_debug', FALSE);
